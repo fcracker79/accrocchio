@@ -1,3 +1,5 @@
+[![build status](https://img.shields.io/travis/fcracker79/accrocchio/master.svg?style=flat-square)](https://travis-ci.org/fcracker79/accrocchio)
+
 # accrocchio
 Accrocchio is a library to mark and being notified of smelly code (a.k.a, "accrocchio").
 
