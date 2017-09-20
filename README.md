@@ -20,7 +20,7 @@ accrocchio.how_many()     # here we have 1, as you have declared a smelly class
 AClassThatSmells()
 accrocchio.how_many()     # here we have 2, as you have created an instance of a smelly class
 a_function_that_smells()
-accrocchio.how_many()     # here we have 3, as you have created an instance of a smelly class
+accrocchio.how_many()     # here we have 3, as you have invoked a smelly function
 
 accrocchio.reset()
 accrocchio.how_many()     # here we have 0
