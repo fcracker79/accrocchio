@@ -2,7 +2,7 @@ import unittest
 from unittest import mock
 
 from accrocchio import observers
-from accrocchio.badgeofshame import accrocchio, Accrocchio
+from accrocchio.badgeofshame import accrocchio
 from accrocchio.observers import AccrocchioObserver
 
 
@@ -39,7 +39,7 @@ class TestBadgeOfShame(unittest.TestCase):
         self.assertEqual(1, observer.reset.call_count)
 
     def test_metaclass(self):
-        class Dino(metaclass=Accrocchio):
+        class Dino(metaclass=accrocchio):
             def __init__(self, xxxxx, y=32):
                 pass
 
