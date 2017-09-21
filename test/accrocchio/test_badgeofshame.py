@@ -1,8 +1,7 @@
 import unittest
 from unittest import mock
 
-from accrocchio import observers
-from accrocchio.badgeofshame import accrocchio
+from accrocchio.badgeofshame import accrocchio, detonator, epoxy, compromise, blinder, flypaper
 from accrocchio.observers import AccrocchioObserver
 
 
@@ -13,39 +12,89 @@ class TestBadgeOfShame(unittest.TestCase):
 
     def test(self):
         @accrocchio
-        def d(a, b):
+        def accrocchio_fun(a, b):
+            pass
+
+        @detonator
+        def detonator_fun(a, b):
+            pass
+
+        @epoxy
+        def epoxy_fun(a, b):
             pass
 
         self.assertEqual(0, accrocchio.how_many())
-        [d(1, 2) for _ in range(3)]
+        [accrocchio_fun(1, 2) for _ in range(3)]
         self.assertEqual(3, accrocchio.how_many())
         accrocchio.reset()
         self.assertEqual(0, accrocchio.how_many())
+        [accrocchio_fun(1, 2) for _ in range(3)]
+
+        accrocchio.reset()
+        self.assertEqual(0, accrocchio.how_many())
+        self.assertEqual(0, detonator.how_many())
+        self.assertEqual(0, epoxy.how_many())
+        [detonator_fun(1, 2) for _ in range(3)]
+        self.assertEqual(3, accrocchio.how_many())
+        self.assertEqual(3, detonator.how_many())
+        self.assertEqual(0, epoxy.how_many())
 
     def test_observers(self):
         @accrocchio
-        def d(a, b):
+        def accrocchio_fun(a, b):
             pass
 
-        observer = mock.create_autospec(AccrocchioObserver)
-        observers.add_accrocchio_observer(observer)
-        d(1, 2)
-        self.assertEqual(0, observer.reset.call_count)
-        self.assertEqual(1, observer.on_accrocchio.call_count)
-        d(1, 2)
-        self.assertEqual(0, observer.reset.call_count)
-        self.assertEqual(2, observer.on_accrocchio.call_count)
+        @detonator
+        def detonator_fun(a, b):
+            pass
+
+        @flypaper
+        def flypaper_fun(a, b):
+            pass
+
+        accrocchio_observer = mock.create_autospec(AccrocchioObserver)
+        accrocchio.add_observer(accrocchio_observer)
+        detonator_observer = mock.create_autospec(AccrocchioObserver)
+        detonator.add_observer(detonator_observer)
+        accrocchio_fun(1, 2)
+        self.assertEqual(0, accrocchio_observer.reset.call_count)
+        self.assertEqual(0, detonator_observer.on_accrocchio.call_count)
+        self.assertEqual(1, accrocchio_observer.on_accrocchio.call_count)
+        detonator_fun(1, 2)
+        self.assertEqual(1, detonator_observer.on_accrocchio.call_count)
+        self.assertEqual(0, accrocchio_observer.reset.call_count)
+        self.assertEqual(2, accrocchio_observer.on_accrocchio.call_count)
+        accrocchio_fun(1, 2)
+        self.assertEqual(0, accrocchio_observer.reset.call_count)
+        self.assertEqual(3, accrocchio_observer.on_accrocchio.call_count)
         accrocchio.reset()
-        self.assertEqual(1, observer.reset.call_count)
+        self.assertEqual(1, accrocchio_observer.reset.call_count)
+        self.assertEqual(0, detonator_observer.reset.call_count)
+        detonator.reset()
+        self.assertEqual(1, accrocchio_observer.reset.call_count)
+        self.assertEqual(1, detonator_observer.reset.call_count)
 
     def test_metaclass(self):
-        class Dino(metaclass=accrocchio):
-            def __init__(self, xxxxx, y=32):
-                pass
+        class AccrocchioClass(metaclass=accrocchio):
+            pass
 
-            def a(self):
-                return 666
+        class CompromiseClass(metaclass=compromise):
+            pass
 
-        self.assertEqual(1, accrocchio.how_many())
-        Dino(1, y=10)
-        self.assertEqual(2, accrocchio.how_many())
+        class BlinderClass(metaclass=blinder):
+            pass
+
+        self.assertEqual(3, accrocchio.how_many())
+        self.assertEqual(1, compromise.how_many())
+        self.assertEqual(1, blinder.how_many())
+        self.assertEqual(0, epoxy.how_many())
+        AccrocchioClass()
+        self.assertEqual(4, accrocchio.how_many())
+        self.assertEqual(1, compromise.how_many())
+        self.assertEqual(1, blinder.how_many())
+        self.assertEqual(0, epoxy.how_many())
+        CompromiseClass()
+        self.assertEqual(5, accrocchio.how_many())
+        self.assertEqual(2, compromise.how_many())
+        self.assertEqual(1, blinder.how_many())
+        self.assertEqual(0, epoxy.how_many())

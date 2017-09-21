@@ -15,6 +15,9 @@ def _notify_accrocchio(accrocchio_name: str):
     for o in observers.ACCROCCHIO_OBSERVERS.get(accrocchio_name, []):
         o.on_accrocchio()
 
+    if accrocchio_name != 'accrocchio':
+        _notify_accrocchio('accrocchio')
+
 
 def _count(accrocchio_name: str):
     return getattr(_notify_accrocchio, '{}.count'.format(accrocchio_name), 0)
@@ -49,6 +52,10 @@ class accrocchio(type):
     @classmethod
     def how_many(mcs):
         return _count(mcs.__name__)
+
+    @classmethod
+    def add_observer(mcs, observer: observers.AccrocchioObserver):
+        observers.add_accrocchio_observer(observer, mcs.__name__)
 
     @classmethod
     def reset(mcs):
