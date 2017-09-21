@@ -42,7 +42,7 @@ accrocchio.reset()         # prints 'Reset accrocchi'
 
 ```
 
-The library also implements ![Michael Duell's resign patterns](http://nishitalab.org/user/paulo/files/resign-patterns.txt).
+The library also implements [Michael Duell's resign patterns](http://nishitalab.org/user/paulo/files/resign-patterns.txt).
 
 ```python
 from accrocchio.badgeofshame import accrocchio, detonator
@@ -67,7 +67,7 @@ accrocchio.how_many()     # here we have 2, as you have invoked a detonator func
 
 ```
 
-For a full list of the implemented accrocchio resign patterns, please consult ![Michael Duell's resign patterns](http://nishitalab.org/user/paulo/files/resign-patterns.txt).
+For a full list of the implemented accrocchio resign patterns, please consult [Michael Duell's resign patterns](http://nishitalab.org/user/paulo/files/resign-patterns.txt).
 
 Some final notes:
 1. This library is useful only if a small part of the software is an accrocchio
