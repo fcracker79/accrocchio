@@ -12,6 +12,7 @@ Example
 .. code:: python
 
     from accrocchio.badgeofshame import accrocchio
+    from accrocchio import observers
 
 
     class AClassThatSmells(metaclass=accrocchio):
@@ -33,24 +34,54 @@ Example
 
     # You can also be notified of smelly code execution, such as:
 
-    from accrocchio import observers
-
-
     class MyAccrocchioObserver(observers.AccrocchioObserver):
         def on_accrocchio(self):
             print('Another accrocchio!')
 
         def reset(self):
             print('Reset accrocchi')
-    observers.add_accrocchio_observer(MyAccrocchioObserver())
+    accrocchio.add_observer(MyAccrocchioObserver())
     a_function_that_smells()   # prints 'Another accrocchio!'
     accrocchio.reset()         # prints 'Reset accrocchi'
 
-We intentionally: 1. Left out Python versions before 3.5, as we think
-they are a complete accrocchio. This library is useful only if a small
-part of the software is an accrocchio 2. Did not pass the accrocchio to
-the 'on\_accrocchio' observer function, as you should treat all the
-accrocchios the same way
+The library also implements `Michael Duell's resign
+patterns <http://nishitalab.org/user/paulo/files/resign-patterns.txt>`__.
+
+.. code:: python
+
+    from accrocchio.badgeofshame import accrocchio, detonator
+
+
+    @accrocchio
+    def accrocchio_fun():
+        pass
+
+
+    @detonator
+    def detonator_fun():
+        pass
+
+
+    accrocchio_fun()
+    accrocchio.how_many()     # here we have 1, as you have invoked an accrocchio function
+    detonator.how_many()      # here we have 0, as you have never invoked a detonator function
+    detonator_fun()
+    detonator.how_many()      # here we have 1, as you have invoked a detonator function
+    accrocchio.how_many()     # here we have 2, as you have invoked a detonator function, which is an accrocchio
+
+For a full list of the implemented accrocchio resign patterns, please
+consult `Michael Duell's resign
+patterns <http://nishitalab.org/user/paulo/files/resign-patterns.txt>`__.
+
+Some final notes:
+
+1. This library is useful only if a small part of the software is an
+   accrocchio
+2. We intentionally left out Python versions before 3.5, as we think
+   they are a complete accrocchio.
+3. We intentionally did not pass the accrocchio to the 'on\_accrocchio'
+   observer function, as you should treat all the accrocchios the same
+   way
 
 .. |build status| image:: https://img.shields.io/travis/fcracker79/accrocchio/master.svg?style=flat-square
    :target: https://travis-ci.org/fcracker79/accrocchio
