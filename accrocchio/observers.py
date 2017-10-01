@@ -22,9 +22,9 @@ def add_accrocchio_observer(observer: AccrocchioObserver, accrocchio_name: str='
     observers.append(observer)
 
 
-def reset(accrocchio_name: str=None):
+def reset(accrocchio_name: str='accrocchio'):
     for k, x in ACCROCCHIO_OBSERVERS.items():
-        if accrocchio_name and k != accrocchio_name:
+        if k != accrocchio_name and accrocchio_name != 'accrocchio':
             continue
         for y in x:
             y.reset()

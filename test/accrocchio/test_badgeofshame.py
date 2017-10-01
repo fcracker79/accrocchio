@@ -1,7 +1,9 @@
 import unittest
 from unittest import mock
 
+# noinspection PyUnresolvedReferences
 from accrocchio.badgeofshame import accrocchio, detonator, epoxy, compromise, blinder, flypaper
+from accrocchio.badgeofshame import this_is_a, this_is_an
 from accrocchio.observers import AccrocchioObserver
 
 
@@ -35,7 +37,19 @@ class TestBadgeOfShame(unittest.TestCase):
         self.assertEqual(0, detonator.how_many())
         self.assertEqual(0, epoxy.how_many())
         [detonator_fun(1, 2) for _ in range(3)]
-        self.assertEqual(3, accrocchio.how_many())
+        [epoxy_fun(1, 2) for _ in range(4)]
+        self.assertEqual(7, accrocchio.how_many())
+        self.assertEqual(3, detonator.how_many())
+        self.assertEqual(4, epoxy.how_many())
+        accrocchio.reset()
+        self.assertEqual(0, accrocchio.how_many())
+        self.assertEqual(0, detonator.how_many())  # We expect it to have detonators being reset as well
+        self.assertEqual(0, epoxy.how_many())
+
+        [detonator_fun(1, 2) for _ in range(3)]
+        [epoxy_fun(1, 2) for _ in range(4)]
+        epoxy.reset()
+        self.assertEqual(7, accrocchio.how_many())
         self.assertEqual(3, detonator.how_many())
         self.assertEqual(0, epoxy.how_many())
 
@@ -69,10 +83,10 @@ class TestBadgeOfShame(unittest.TestCase):
         self.assertEqual(3, accrocchio_observer.on_accrocchio.call_count)
         accrocchio.reset()
         self.assertEqual(1, accrocchio_observer.reset.call_count)
-        self.assertEqual(0, detonator_observer.reset.call_count)
+        self.assertEqual(1, detonator_observer.reset.call_count)
         detonator.reset()
         self.assertEqual(1, accrocchio_observer.reset.call_count)
-        self.assertEqual(1, detonator_observer.reset.call_count)
+        self.assertEqual(2, detonator_observer.reset.call_count)
 
     def test_metaclass(self):
         class AccrocchioClass(metaclass=accrocchio):
@@ -97,4 +111,33 @@ class TestBadgeOfShame(unittest.TestCase):
         self.assertEqual(5, accrocchio.how_many())
         self.assertEqual(2, compromise.how_many())
         self.assertEqual(1, blinder.how_many())
+        self.assertEqual(0, epoxy.how_many())
+
+    def test_one_shot_accrocchi(self):
+        self.assertEqual(0, accrocchio.how_many())
+        [this_is_an(accrocchio) for _ in range(3)]
+        self.assertEqual(3, accrocchio.how_many())
+        accrocchio.reset()
+        self.assertEqual(0, accrocchio.how_many())
+        [this_is_an(accrocchio) for _ in range(3)]
+
+        accrocchio.reset()
+        self.assertEqual(0, accrocchio.how_many())
+        self.assertEqual(0, detonator.how_many())
+        self.assertEqual(0, epoxy.how_many())
+        [this_is_a(detonator) for _ in range(3)]
+        [this_is_an(epoxy) for _ in range(4)]
+        self.assertEqual(7, accrocchio.how_many())
+        self.assertEqual(3, detonator.how_many())
+        self.assertEqual(4, epoxy.how_many())
+        accrocchio.reset()
+        self.assertEqual(0, accrocchio.how_many())
+        self.assertEqual(0, detonator.how_many())  # We expect it to have detonators being reset as well
+        self.assertEqual(0, epoxy.how_many())
+
+        [this_is_a(detonator) for _ in range(3)]
+        [this_is_an(epoxy) for _ in range(4)]
+        epoxy.reset()
+        self.assertEqual(7, accrocchio.how_many())
+        self.assertEqual(3, detonator.how_many())
         self.assertEqual(0, epoxy.how_many())

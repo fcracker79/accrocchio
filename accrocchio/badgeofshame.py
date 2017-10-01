@@ -1,3 +1,4 @@
+import typing
 from functools import wraps
 
 import sys
@@ -5,13 +6,28 @@ import sys
 from accrocchio import observers
 
 
-def _notify_accrocchio(accrocchio_name: str):
-    accrocchio_field = '{}.count'.format(accrocchio_name)
-    if not hasattr(_notify_accrocchio, accrocchio_field):
-        setattr(_notify_accrocchio, accrocchio_field, 1)
+_ACCROCCHI_COUNTS_FIELD = '_accrocchi_count'
+
+
+def _reset_accrocchio(accrocchio_name: str):
+    if accrocchio_name == 'accrocchio':
+        setattr(_notify_accrocchio, _ACCROCCHI_COUNTS_FIELD, {})
     else:
-        setattr(_notify_accrocchio, accrocchio_field,
-                getattr(_notify_accrocchio, accrocchio_field) + 1)
+        _get_accrocchi_counts().pop(accrocchio_name, 0)
+
+
+def _get_accrocchi_counts() -> typing.Dict[str, int]:
+    if not hasattr(_notify_accrocchio, _ACCROCCHI_COUNTS_FIELD):
+        setattr(_notify_accrocchio, _ACCROCCHI_COUNTS_FIELD, {})
+    return getattr(_notify_accrocchio, _ACCROCCHI_COUNTS_FIELD)
+
+
+def _notify_accrocchio(accrocchio_name: str):
+    accrocchi_counts = _get_accrocchi_counts()
+    if accrocchio_name in accrocchi_counts:
+        accrocchi_counts[accrocchio_name] += 1
+    else:
+        accrocchi_counts[accrocchio_name] = 1
     for o in observers.ACCROCCHIO_OBSERVERS.get(accrocchio_name, []):
         o.on_accrocchio()
 
@@ -20,7 +36,7 @@ def _notify_accrocchio(accrocchio_name: str):
 
 
 def _count(accrocchio_name: str):
-    return getattr(_notify_accrocchio, '{}.count'.format(accrocchio_name), 0)
+    return _get_accrocchi_counts().get(accrocchio_name, 0)
 
 
 # noinspection PyPep8Naming
@@ -60,7 +76,7 @@ class accrocchio(type):
     @classmethod
     def reset(mcs):
         observers.reset(mcs.__name__)
-        setattr(_notify_accrocchio, '{}.count'.format(mcs.__name__), 0)
+        _reset_accrocchio(mcs.__name__)
 
 
 _PATTERNS = {
@@ -210,3 +226,14 @@ for pattern_name, docstring in _PATTERNS.items():
     setattr(
         sys.modules[__name__], pattern_name,
         type(pattern_name, (accrocchio, ), {'__doc__': docstring}))
+
+
+_AccrocchioType = typing.TypeVar('Accrocchio', bound=accrocchio)
+
+
+def this_is_a(accrocchio_type: typing.Type[_AccrocchioType]):
+    _notify_accrocchio(accrocchio_type.__name__)
+
+
+def this_is_an(accrocchio_type: typing.Type[_AccrocchioType]):
+    return this_is_a(accrocchio_type)
