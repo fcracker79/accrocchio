@@ -6,6 +6,7 @@ Accrocchio is a library to mark and being notified of smelly code (a.k.a, "accro
 Example
 -------
 
+
 ```python
 from accrocchio.badgeofshame import accrocchio
 from accrocchio import observers
@@ -67,10 +68,23 @@ accrocchio.how_many()     # here we have 2, as you have invoked a detonator func
 
 ```
 
+You may mark arbitrary code as an accrocchio:
+
+```python
+from accrocchio.badgeofshame import detonator, epoxy, this_is_a, this_is_an
+
+this_is_an(epoxy)
+this_is_a(detonator)
+detonator.how_many()  # this will be 1
+epoxy.how_many()  # this will be 1
+
+```
 For a full list of the implemented accrocchio resign patterns, please consult [Michael Duell's resign patterns](http://nishitalab.org/user/paulo/files/resign-patterns.txt).
 
 Some final notes:
 
 1. This library is useful only if a small part of the software is an accrocchio
 2. We intentionally left out Python versions before 3.5, as we think they are a complete accrocchio.
-3. We intentionally did not pass the accrocchio to the 'on_accrocchio' observer function, as you should treat all the accrocchios the same way
+3. We intentionally did not pass the accrocchio to the 'on_accrocchio' observer function, as you should treat all the accrocchioes the same way
+4. The plural for accrocchio is accrocchioes
+5. If you are using this library, you are deliberately brutalizing The Zen of Python; thus it has been replaced with a more appropriate one
