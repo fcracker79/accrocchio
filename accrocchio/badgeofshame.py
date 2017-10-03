@@ -39,8 +39,17 @@ def _count(accrocchio_name: str):
     return _get_accrocchi_counts().get(accrocchio_name, 0)
 
 
+class MetaAccrocchioForContext(type):
+    def __enter__(cls):
+        _notify_accrocchio(cls.__name__)
+        return cls
+
+    def __exit__(cls, exc_type, exc_val, exc_tb):
+        pass
+
+
 # noinspection PyPep8Naming
-class accrocchio(type):
+class accrocchio(type, metaclass=MetaAccrocchioForContext):
     def __new__(mcs, *args, **kwargs):
         if len(args) == 1 and len(kwargs) == 0 and callable(args[0]):
             fun = args[0]

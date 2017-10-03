@@ -79,6 +79,23 @@ detonator.how_many()  # this will be 1
 epoxy.how_many()  # this will be 1
 
 ```
+
+If you need to have to mark a specific portion of your code as an accrocchio, you can use it as a context manager, as follows:
+
+```python
+from accrocchio.badgeofshame import detonator, epoxy
+
+with detonator:
+    ...
+
+with epoxy:
+    ...
+
+detonator.how_many()  # this will be 1
+epoxy.how_many()  # this will be 1
+
+```
+
 For a full list of the implemented accrocchio resign patterns, please consult [Michael Duell's resign patterns](http://nishitalab.org/user/paulo/files/resign-patterns.txt).
 
 Some final notes:
