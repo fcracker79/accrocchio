@@ -13,14 +13,17 @@ class TestBadgeOfShame(unittest.TestCase):
         assert accrocchio.how_many() == 0
 
     def test(self):
+        # noinspection PyUnusedLocal
         @accrocchio
         def accrocchio_fun(a, b):
             pass
 
+        # noinspection PyUnusedLocal
         @detonator
         def detonator_fun(a, b):
             pass
 
+        # noinspection PyUnusedLocal
         @epoxy
         def epoxy_fun(a, b):
             pass
@@ -54,14 +57,17 @@ class TestBadgeOfShame(unittest.TestCase):
         self.assertEqual(0, epoxy.how_many())
 
     def test_observers(self):
+        # noinspection PyUnusedLocal
         @accrocchio
         def accrocchio_fun(a, b):
             pass
 
+        # noinspection PyUnusedLocal
         @detonator
         def detonator_fun(a, b):
             pass
 
+        # noinspection PyUnusedLocal
         @flypaper
         def flypaper_fun(a, b):
             pass
@@ -88,6 +94,7 @@ class TestBadgeOfShame(unittest.TestCase):
         self.assertEqual(1, accrocchio_observer.reset.call_count)
         self.assertEqual(2, detonator_observer.reset.call_count)
 
+    # noinspection PyUnusedLocal
     def test_metaclass(self):
         class AccrocchioClass(metaclass=accrocchio):
             pass
@@ -141,3 +148,14 @@ class TestBadgeOfShame(unittest.TestCase):
         self.assertEqual(7, accrocchio.how_many())
         self.assertEqual(3, detonator.how_many())
         self.assertEqual(0, epoxy.how_many())
+
+    def test_context(self):
+        with accrocchio:
+            pass
+
+        with detonator:
+            with detonator:
+                pass
+
+        self.assertEqual(3, accrocchio.how_many())
+        self.assertEqual(2, detonator.how_many())
