@@ -19,11 +19,12 @@ def get_packages(path):
     out = [path]
     for x in find_packages(path):
         out.append('{}/{}'.format(path, x))
+    out.append('.')
     return out
 
 packages = get_packages('accrocchio')
 setup(name='accrocchio',
-      version='0.1.9',
+      version='0.1.10',
       description='Accrocchio is a library to mark and being notified of smelly code (a.k.a, "accrocchio").',
       long_description=readfile('README.rst'),
       url='https://github.com/fcracker79/accrocchio',
