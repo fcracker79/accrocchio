@@ -24,7 +24,7 @@ def get_packages(path):
 
 packages = get_packages('accrocchio')
 setup(name='accrocchio',
-      version='0.1.10',
+      version='0.1.11',
       description='Accrocchio is a library to mark and being notified of smelly code (a.k.a, "accrocchio").',
       long_description=readfile('README.rst'),
       url='https://github.com/fcracker79/accrocchio',
