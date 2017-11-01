@@ -53,6 +53,9 @@ class accrocchio(type, metaclass=MetaAccrocchioForContext):
     def __new__(mcs, *args, **kwargs):
         if len(args) == 1 and len(kwargs) == 0 and callable(args[0]):
             fun = args[0]
+            if type(fun) == type:
+
+                fun = fun.__init__
 
             @wraps(fun)
             def _inner(*a, **kw):
@@ -61,6 +64,11 @@ class accrocchio(type, metaclass=MetaAccrocchioForContext):
                 finally:
                     _notify_accrocchio(mcs.__name__)
 
+            if type(args[0]) == type:
+                args[0].__init__ = _inner
+                # noinspection PyProtectedMember
+                _notify_accrocchio(mcs.__name__)
+                return args[0]
             return _inner
         else:
             # noinspection PyProtectedMember

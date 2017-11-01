@@ -120,6 +120,46 @@ class TestBadgeOfShame(unittest.TestCase):
         self.assertEqual(1, blinder.how_many())
         self.assertEqual(0, epoxy.how_many())
 
+    # noinspection PyUnusedLocal
+    def test_class_decorator(self):
+        @accrocchio
+        class AccrocchioClass:
+            pass
+
+        @compromise
+        class CompromiseClass:
+            def a_method(self):
+                pass
+
+        @blinder
+        class BlinderClass:
+            pass
+
+        self.assertEqual(3, accrocchio.how_many())
+        self.assertEqual(1, compromise.how_many())
+        self.assertEqual(1, blinder.how_many())
+        self.assertEqual(0, epoxy.how_many())
+        AccrocchioClass()
+        self.assertEqual(4, accrocchio.how_many())
+        self.assertEqual(1, compromise.how_many())
+        self.assertEqual(1, blinder.how_many())
+        self.assertEqual(0, epoxy.how_many())
+        c = CompromiseClass()
+        self.assertEqual(5, accrocchio.how_many())
+        self.assertEqual(2, compromise.how_many())
+        self.assertEqual(1, blinder.how_many())
+        self.assertEqual(0, epoxy.how_many())
+        c.a_method()
+        self.assertEqual(5, accrocchio.how_many())
+        self.assertEqual(2, compromise.how_many())
+        self.assertEqual(1, blinder.how_many())
+        self.assertEqual(0, epoxy.how_many())
+        CompromiseClass()
+        self.assertEqual(6, accrocchio.how_many())
+        self.assertEqual(3, compromise.how_many())
+        self.assertEqual(1, blinder.how_many())
+        self.assertEqual(0, epoxy.how_many())
+
     def test_one_shot_accrocchi(self):
         self.assertEqual(0, accrocchio.how_many())
         [this_is_an(accrocchio) for _ in range(3)]
