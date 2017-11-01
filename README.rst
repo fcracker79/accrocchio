@@ -44,6 +44,24 @@ Example
     a_function_that_smells()   # prints 'Another accrocchio!'
     accrocchio.reset()         # prints 'Reset accrocchi'
 
+It is also possible to decorate the entire class. Both the declaration
+and the instantiation of such classes increase the accrocchio counters.
+
+.. code:: python
+
+    from accrocchio.badgeofshame import accrocchio
+    from accrocchio import observers
+
+
+    @accrocchio
+    class AClassThatSmells:
+        pass
+
+
+    accrocchio.how_many()     # here we have 1, as you have declared a smelly class
+    AClassThatSmells()
+    accrocchio.how_many()     # here we have 2, as you have created an instance of a smelly class
+
 The library also implements `Michael Duell's resign
 patterns <http://nishitalab.org/user/paulo/files/resign-patterns.txt>`__.
 
