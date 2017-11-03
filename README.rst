@@ -129,7 +129,8 @@ Some final notes:
    way
 4. The plural for accrocchio is accrocchioes
 5. If you are using this library, you are deliberately brutalizing The
-   Zen of Python; thus it has been replaced with a more appropriate one
+   Zen of Python; thus it has been replaced with a more appropriate one.
+   Just do ``import this`` after ``import accrocchio``.
 
 .. |build status| image:: https://img.shields.io/travis/fcracker79/accrocchio/master.svg?style=flat-square
    :target: https://travis-ci.org/fcracker79/accrocchio
