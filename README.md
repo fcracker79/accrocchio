@@ -123,4 +123,5 @@ Some final notes:
 2. We intentionally left out Python versions before 3.5, as we think they are a complete accrocchio.
 3. We intentionally did not pass the accrocchio to the 'on_accrocchio' observer function, as you should treat all the accrocchioes the same way
 4. The plural for accrocchio is accrocchioes
-5. If you are using this library, you are deliberately brutalizing The Zen of Python; thus it has been replaced with a more appropriate one
+5. If you are using this library, you are deliberately brutalizing The Zen of Python; thus it has been replaced with a more appropriate one.
+   Just do `import this` after `import accrocchio`.
