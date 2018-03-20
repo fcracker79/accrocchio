@@ -62,6 +62,23 @@ and the instantiation of such classes increase the accrocchio counters.
     AClassThatSmells()
     accrocchio.how_many()     # here we have 2, as you have created an instance of a smelly class
 
+You might declare an accrocchio using type hinting, as follows:
+
+.. code:: python
+
+    from accrocchio.badgeofshame import accrocchio, detonator
+
+
+    def f(a: detonator[int]):
+        pass
+
+    accrocchio.how_many()     # here we have 1, as you have declared a smelly parameter
+    detonator.how_many()     # here we have 1, as you have declared a smelly parameter
+
+    f(1)
+    accrocchio.how_many()     # here we still have 1
+    detonator.how_many()     # here we still have 1
+
 The library also implements `Michael Duell's resign
 patterns <http://nishitalab.org/user/paulo/files/resign-patterns.txt>`__.
 

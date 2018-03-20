@@ -1,4 +1,5 @@
 [![build status](https://img.shields.io/travis/fcracker79/accrocchio/master.svg?style=flat-square)](https://travis-ci.org/fcracker79/accrocchio)
+[![Pypi](https://img.shields.io/pypi/v/accrocchio.svg)](https://img.shields.io/pypi/v/accrocchio.svg)
 
 # accrocchio
 Accrocchio is a library to mark and being notified of smelly code (a.k.a, "accrocchio").
@@ -60,6 +61,23 @@ accrocchio.how_many()     # here we have 1, as you have declared a smelly class
 AClassThatSmells()
 accrocchio.how_many()     # here we have 2, as you have created an instance of a smelly class
 
+```
+
+You might declare an accrocchio using type hinting, as follows:
+
+```python
+from accrocchio.badgeofshame import accrocchio, detonator
+
+
+def f(a: detonator[int]):
+    pass
+
+accrocchio.how_many()     # here we have 1, as you have declared a smelly parameter
+detonator.how_many()     # here we have 1, as you have declared a smelly parameter
+
+f(1)
+accrocchio.how_many()     # here we still have 1
+detonator.how_many()     # here we still have 1
 ```
 
 The library also implements [Michael Duell's resign patterns](http://nishitalab.org/user/paulo/files/resign-patterns.txt).

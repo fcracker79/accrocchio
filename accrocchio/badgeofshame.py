@@ -47,6 +47,9 @@ class MetaAccrocchioForContext(type):
     def __exit__(cls, exc_type, exc_val, exc_tb):
         pass
 
+    def __getitem__(cls, arg):
+        _notify_accrocchio(cls.__name__)
+        return arg
 
 # noinspection PyPep8Naming
 class accrocchio(type, metaclass=MetaAccrocchioForContext):

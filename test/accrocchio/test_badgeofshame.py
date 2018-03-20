@@ -199,3 +199,13 @@ class TestBadgeOfShame(unittest.TestCase):
 
         self.assertEqual(3, accrocchio.how_many())
         self.assertEqual(2, detonator.how_many())
+
+    def test_typing(self):
+        def f(a: detonator[int]):
+            pass
+
+        self.assertEqual(1, accrocchio.how_many())
+        self.assertEqual(1, detonator.how_many())
+        f(1)
+        self.assertEqual(1, accrocchio.how_many())
+        self.assertEqual(1, detonator.how_many())
